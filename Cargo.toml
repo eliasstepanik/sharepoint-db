@@ -1,0 +1,40 @@
+[package]
+name = "sharepoint-db"
+version = "0.1.0"
+edition = "2021"
+# `File::try_lock` (see `FileLock`) is stable since 1.89.
+rust-version = "1.89"
+description = "Multi-writer SQL database that syncs through a OneDrive/SharePoint folder"
+license = "MIT"
+
+[lib]
+name = "sharepoint_db"
+path = "src/lib.rs"
+
+[[bin]]
+name = "sharedb"
+path = "src/bin/sharedb.rs"
+required-features = ["cli"]
+
+[features]
+default = ["cli"]
+cli = ["dep:clap"]
+
+[dependencies]
+rusqlite = { version = "0.43", features = [
+    "bundled",
+    "session",
+    "functions",
+    "hooks",
+    # Online backup API: used to capture a checkpoint snapshot (see
+    # `crate::checkpoint::capture`). Part of rusqlite itself, no new dependency.
+    "backup",
+] }
+sha2 = "0.10"
+thiserror = "2"
+# The `sharedb` CLI only (see `src/bin/sharedb.rs`).
+clap = { version = "4", features = ["derive", "env"], optional = true }
+
+[dev-dependencies]
+proptest = "1"
+tempfile = "3"
