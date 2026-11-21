@@ -197,3 +197,7 @@ cargo fmt --check
 The `cli` feature (default on) pulls in `clap` and builds the `sharedb` binary;
 without it the crate is a library only. `tests/cli.rs` drives the built binary
 itself, so it is skipped under `--no-default-features`.
+
+## License
+
+Licensed under the MIT License. See [LICENSE](LICENSE) for details.
